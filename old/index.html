@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Something Special for Zoe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- Screen 1: Welcome -->
+    <section class="screen active" id="welcomeScreen">
+        <div class="content">
+            <div class="heart-decoration">💕</div>
+            <h1 class="welcome-title">Καλώς ήρθες, Zoe!</h1>
+            <p class="welcome-subtitle">Έφτιαξα κάτι ξεχωριστό για σένα...</p>
+            <button class="btn primary-btn" onclick="startQuiz()">
+                <span>Ξεκίνα</span>
+                <span class="btn-heart">💗</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Screen 2: Challenge 1 -->
+    <section class="screen" id="challenge1Screen">
+        <div class="content">
+            <div class="progress-indicator">
+                <span class="progress-dot active"></span>
+                <span class="progress-dot"></span>
+                <span class="progress-dot"></span>
+                <span class="progress-dot"></span>
+            </div>
+            <div class="question-card">
+                <h2 class="question-number">Ερώτηση 1 από 3</h2>
+                <p class="question-text" id="question1Text"></p>
+                <div class="answers-container" id="answers1Container"></div>
+                <div class="feedback" id="feedback1"></div>
+                <div class="letter-fragment" id="fragment1"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screen 3: Challenge 2 -->
+    <section class="screen" id="challenge2Screen">
+        <div class="content">
+            <div class="progress-indicator">
+                <span class="progress-dot completed"></span>
+                <span class="progress-dot active"></span>
+                <span class="progress-dot"></span>
+                <span class="progress-dot"></span>
+            </div>
+            <div class="question-card">
+                <h2 class="question-number">Ερώτηση 2 από 3</h2>
+                <p class="question-text" id="question2Text"></p>
+                <div class="answers-container" id="answers2Container"></div>
+                <div class="feedback" id="feedback2"></div>
+                <div class="letter-fragment" id="fragment2"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screen 4: Challenge 3 -->
+    <section class="screen" id="challenge3Screen">
+        <div class="content">
+            <div class="progress-indicator">
+                <span class="progress-dot completed"></span>
+                <span class="progress-dot completed"></span>
+                <span class="progress-dot active"></span>
+                <span class="progress-dot"></span>
+            </div>
+            <div class="question-card">
+                <h2 class="question-number">Ερώτηση 3 από 3</h2>
+                <p class="question-text" id="question3Text"></p>
+                <div class="answers-container" id="answers3Container"></div>
+                <div class="feedback" id="feedback3"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screen 5: Math Puzzle -->
+    <section class="screen" id="puzzleScreen">
+        <div class="content">
+            <div class="progress-indicator">
+                <span class="progress-dot completed"></span>
+                <span class="progress-dot completed"></span>
+                <span class="progress-dot completed"></span>
+                <span class="progress-dot active"></span>
+            </div>
+            <div class="puzzle-card">
+                <h2 class="puzzle-title">Bonus: Αποκρυπτογράφησε το μήνυμα</h2>
+                <p class="puzzle-subtitle">Τι κρύβουν αυτές οι εξισώσεις;</p>
+
+                <div class="equation" id="equation1">
+                    f(<span class="var">μ</span>, <span class="var">ο</span>, <span class="var">υ</span>) = ?
+                </div>
+
+                <div class="equation" id="equation2">
+                    ∫ <span class="var">λ</span><span class="var">ε</span><span class="var">ί</span><span class="var">π</span><span class="var">ε</span><span class="var">ι</span><span class="var">ς</span> dt = ?
+                </div>
+
+                <button class="btn decode-btn" onclick="decodePuzzle()">
+                    <span>Αποκωδικοποίησε</span> <span class="btn-heart">🔍</span>
+                </button>
+
+                <div class="decoded-message hidden" id="decodedMessage">
+                    <p class="revealed-text">Μου λείπεις 💕</p>
+                </div>
+
+                <button class="btn next-btn" id="puzzleNextBtn" onclick="showLetter()">
+                    <span>Συνέχεια</span> <span class="btn-heart">→</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screen 6: Love Letter Reveal -->
+    <section class="screen" id="letterScreen">
+        <div class="content">
+            <div class="envelope-container" id="envelopeContainer">
+                <div class="envelope" id="envelope">
+                    <div class="envelope-flap"></div>
+                    <div class="envelope-body">
+                        <div class="heart-seal">💌</div>
+                    </div>
+                </div>
+                <p class="tap-hint">Κάνε κλικ για να ανοίξεις</p>
+            </div>
+
+            <div class="letter-container hidden" id="letterContainer">
+                <div class="letter">
+                    <div class="letter-header">
+                        <span class="letter-heart">💕</span>
+                    </div>
+                    <div class="letter-content">
+                        <p class="letter-greeting">Αγαπημένη μου Zoe,</p>
+
+                        <p>Κάθε στιγμή μαζί σου είναι σαν να λύνω την πιο όμορφη εξίσωση — μία όπου η απάντηση είσαι πάντα εσύ.</p>
+
+                        <p>Αγαπώ τον τρόπο που πέφτουν τα μαλλιά σου, τον τρόπο που το μυαλό σου δουλεύει σε προβλήματα που εγώ δεν μπορώ καν να καταλάβω, και τον τρόπο που κάνεις την καρδιά μου να νιώθει σαν να ακούει το αγαπημένο μας τραγούδι για πρώτη φορά.</p>
+
+                        <p>Είσαι η σταθερά μου, η μεταβλητή μου, το παν μου.</p>
+
+                        <p class="letter-closing">Για πάντα δικός σου,</p>
+                        <p class="letter-signature">Ο Μεγαλύτερος θαυμαστής σου 💗</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

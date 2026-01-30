@@ -476,10 +476,108 @@
         }
 
         #tries-left {
-            font-size: 0.85rem;
-            color: #8b7355;
-            margin-top: 15px;
-            font-style: italic;
+            display: none;
+        }
+
+        /* ========== WRONG ANSWER POPUP ========== */
+        .wrong-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .wrong-popup-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .wrong-popup {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            padding: 40px 50px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(198, 40, 40, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(198, 40, 40, 0.3);
+            max-width: 420px;
+            transform: scale(0.8) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .wrong-popup-overlay.visible .wrong-popup {
+            transform: scale(1) translateY(0);
+        }
+
+        .wrong-popup-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-10px); }
+            80% { transform: translateX(10px); }
+        }
+
+        .wrong-popup-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .wrong-popup-message {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.15rem;
+            color: #d1d5db;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .wrong-popup-tries {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: #ffd700;
+            margin-bottom: 25px;
+            padding: 12px 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .wrong-popup-btn {
+            background: linear-gradient(135deg, #c62828 0%, #8b0000 100%);
+            color: white;
+            padding: 14px 45px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(198, 40, 40, 0.4);
+        }
+
+        .wrong-popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(198, 40, 40, 0.5);
         }
 
         /* ========== ENVELOPE STYLES ========== */
@@ -487,61 +585,36 @@
             display: none;
             text-align: center;
             padding: 30px 20px;
-            perspective: 1000px;
         }
 
-        .envelope-wrapper {
-            position: relative;
-            width: 320px;
-            height: 220px;
-            margin: 0 auto 20px auto;
-            perspective: 1000px;
+        /* OLD-STYLE ENVELOPE */
+        .envelope-container {
             cursor: pointer;
             transition: transform 0.3s ease;
         }
 
-        .envelope-wrapper:hover {
-            transform: scale(1.02);
+        .envelope-container:hover {
+            transform: scale(1.05);
         }
 
         .envelope {
             position: relative;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
+            width: 200px;
+            height: 140px;
+            margin: 0 auto 20px;
         }
 
-        .envelope-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(145deg, #f5e6d3 0%, #e8d4be 50%, #dcc8b0 100%);
-            border-radius: 8px;
-            box-shadow:
-                0 8px 30px rgba(0,0,0,0.2),
-                inset 0 0 40px rgba(255,255,255,0.3);
-            border: 1px solid #c9a87c;
-        }
-
-        .envelope-front {
+        .envelope-body {
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 65%;
-            background: linear-gradient(180deg, #e8d4be 0%, #f5e6d3 100%);
-            border-radius: 0 0 8px 8px;
-            z-index: 2;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-        }
-
-        .envelope-front::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #c9a87c, transparent);
+            height: 100px;
+            background: linear-gradient(135deg, #FFD1DC, #FFB6C1);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(255, 182, 193, 0.5);
         }
 
         .envelope-flap {
@@ -549,168 +622,48 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 55%;
-            background: linear-gradient(180deg, #dcc8b0 0%, #e8d4be 100%);
-            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            height: 80px;
+            background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+            clip-path: polygon(0 0, 50% 80%, 100% 0, 100% 100%, 0 100%);
             transform-origin: top center;
-            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 3;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-        }
-
-        .envelope-flap::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 50%);
-            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transition: transform 0.8s ease;
+            z-index: 1;
         }
 
         .envelope.open .envelope-flap {
             transform: rotateX(180deg);
         }
 
-        /* Wax Seal */
-        .wax-seal {
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 50px;
-            background: radial-gradient(circle at 30% 30%, #c62828 0%, #8b0000 70%, #5d0000 100%);
-            border-radius: 50%;
-            z-index: 4;
-            box-shadow:
-                0 4px 8px rgba(0,0,0,0.3),
-                inset 0 2px 4px rgba(255,255,255,0.2),
-                inset 0 -2px 4px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.3s ease;
+        .heart-seal {
+            font-size: 40px;
+            animation: heartBeat 1.5s ease-in-out infinite;
         }
 
-        .wax-seal::before {
-            content: '♥';
-            font-size: 24px;
-            color: rgba(255,255,255,0.3);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-        }
-
-        .wax-seal::after {
-            content: '';
-            position: absolute;
-            top: 5px;
-            left: 10px;
-            width: 15px;
-            height: 8px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 50%;
-            transform: rotate(-30deg);
-        }
-
-        /* Wax seal hover glow */
-        .envelope-wrapper:hover .wax-seal {
-            box-shadow:
-                0 4px 8px rgba(0,0,0,0.3),
-                0 0 20px rgba(198, 40, 40, 0.6),
-                0 0 40px rgba(198, 40, 40, 0.4),
-                inset 0 2px 4px rgba(255,255,255,0.2),
-                inset 0 -2px 4px rgba(0,0,0,0.2);
-            transform: translateX(-50%) scale(1.1);
-        }
-
-        .envelope.open .wax-seal {
-            transform: translateX(-50%) scale(0.8) rotate(15deg);
-            opacity: 0.7;
-        }
-
-        /* Click hint */
-        .click-hint {
+        .tap-hint {
             font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
             color: #8b7355;
+            font-size: 1rem;
             font-style: italic;
-            margin-bottom: 30px;
-            animation: pulseHint 2s ease-in-out infinite;
         }
 
-        @keyframes pulseHint {
-            0%, 100% {
-                opacity: 0.7;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.02);
-            }
-        }
-
-        .click-hint.hidden {
+        .tap-hint.hidden {
             display: none;
         }
 
-        /* Letter that slides up */
-        .letter {
-            position: absolute;
-            top: 30%;
-            left: 50%;
-            transform: translateX(-50%) translateY(0);
-            width: 85%;
-            background: linear-gradient(145deg, #fffef9 0%, #fdf8f0 100%);
-            border-radius: 4px;
-            padding: 25px 20px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-            z-index: 1;
+        /* Letter container appears below envelope */
+        .letter-container {
+            margin-top: 30px;
             opacity: 0;
-            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1) 0.5s, opacity 0.8s ease 0.5s;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
         }
 
-        .envelope.open .letter {
-            transform: translateX(-50%) translateY(-180px);
-            opacity: 1;
+        .letter-container.hidden {
+            display: none;
         }
 
-        .letter-content {
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.8s ease 1.2s, transform 0.8s ease 1.2s;
-        }
-
-        .envelope.open .letter-content {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .letter-header {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2rem;
-            color: #b8860b;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 2px rgba(184, 134, 11, 0.2);
-        }
-
-        .letter-text {
-            font-family: 'Crimson Text', serif;
-            font-size: 0.95rem;
-            color: #4a3728;
-            line-height: 1.6;
-            font-style: italic;
-        }
-
-        /* Love message below envelope */
-        .love-message-container {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s ease, transform 1s ease;
-            margin-top: 20px;
-        }
-
-        .love-message-container.visible {
+        .letter-container.visible {
+            display: block;
             opacity: 1;
             transform: translateY(0);
         }
@@ -758,6 +711,66 @@
             color: #8b7355;
         }
 
+        /* Math Popup Styles */
+        .math-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .math-popup-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .math-popup {
+            background: linear-gradient(145deg, #fffef9, #fdf8f3);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 2px solid #c9a87c;
+            max-width: 400px;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .math-popup-overlay.visible .math-popup {
+            transform: scale(1);
+        }
+
+        .popup-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: #4a3728;
+            margin-bottom: 15px;
+        }
+
+        .popup-subtext {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.1rem;
+            color: #6b5344;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .popup-btn {
+            background: linear-gradient(135deg, #c62828 0%, #8b0000 100%);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+        }
+
         /* Decorative hearts */
         .heart-decoration {
             color: #c62828;
@@ -792,17 +805,9 @@
                 padding: 12px 25px;
             }
 
-            .envelope-wrapper {
-                width: 280px;
-                height: 190px;
-            }
-
-            .letter-header {
-                font-size: 1.6rem;
-            }
-
-            .letter-text {
-                font-size: 0.85rem;
+            .envelope {
+                width: 180px;
+                height: 120px;
             }
 
             .love-message {
@@ -848,14 +853,56 @@
         #main-content.visible {
             opacity: 1;
         }
+
+        /* Music Toggle Button */
+        .music-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00ff88;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .music-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.5);
+        }
+
+        .music-icon {
+            font-size: 24px;
+        }
+
+        .music-toggle.playing .music-icon {
+            animation: musicPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
     </style>
 </head>
 <body>
 
-<!-- Background Music (Local) -->
-<audio id="bg-music" loop>
-    <source src="music.mp3" type="audio/mpeg">
+<!-- Background Music -->
+<audio id="backgroundMusic" loop preload="auto">
+    <source src="background-music.mp3" type="audio/mpeg">
 </audio>
+
+<!-- Music Control Button -->
+<button class="music-toggle" id="musicToggle" aria-label="Toggle music">
+    <span class="music-icon">🔇</span>
+</button>
 
 <!-- Aurora Background -->
 <div class="aurora-container">
@@ -869,6 +916,26 @@
         <h1 class="welcome-title">Ζωή...</h1>
         <p class="welcome-subtitle">Κάτι ειδικό σε περιμένει</p>
         <button class="enter-btn" onclick="enterSite()">Συνέχεια ♥</button>
+    </div>
+</div>
+
+<!-- Math Popup -->
+<div class="math-popup-overlay" id="mathPopup">
+    <div class="math-popup">
+        <p class="popup-text">⚠️ This is only for pure mathematicians!</p>
+        <p class="popup-subtext">Are you sure you want to continue?</p>
+        <button class="popup-btn" onclick="closeMathPopup()">Yes, I am! ✓</button>
+    </div>
+</div>
+
+<!-- Wrong Answer Popup -->
+<div class="wrong-popup-overlay" id="wrongPopup">
+    <div class="wrong-popup">
+        <div class="wrong-popup-icon">💔</div>
+        <p class="wrong-popup-title">Incorrect Proof</p>
+        <p class="wrong-popup-message">Check your integration constants...</p>
+        <p class="wrong-popup-tries" id="popup-tries-left">You have 2 tries left until I reveal my secret to you...</p>
+        <button class="wrong-popup-btn" onclick="closeWrongPopup()">Try Again</button>
     </div>
 </div>
 
@@ -926,28 +993,17 @@
     </div>
 
     <div id="final-message">
-        <!-- Envelope Animation -->
-        <div class="envelope-wrapper" id="envelope-wrapper" onclick="openEnvelope()">
+        <div class="envelope-container" id="envelopeContainer" onclick="openEnvelope()">
             <div class="envelope" id="envelope">
-                <div class="envelope-back"></div>
-                <div class="letter">
-                    <div class="letter-content">
-                        <div class="letter-header">Ζωή μου</div>
-                        <div class="letter-text">
-                            Άνοιξε το γράμμα μου...
-                        </div>
-                    </div>
-                </div>
-                <div class="envelope-front"></div>
-                <div class="envelope-flap">
-                    <div class="wax-seal"></div>
+                <div class="envelope-flap"></div>
+                <div class="envelope-body">
+                    <div class="heart-seal">💌</div>
                 </div>
             </div>
+            <p class="tap-hint" id="tap-hint">Κάνε κλικ για να ανοίξεις</p>
         </div>
-        <p class="click-hint" id="click-hint">Πάτησε για να ανοίξεις... 💌</p>
 
-        <!-- Love Message Below -->
-        <div class="love-message-container" id="love-message-container">
+        <div class="letter-container hidden" id="letterContainer">
             <div class="love-message">
                 <span class="heart-decoration">&#10084;</span>
                 <span class="heart-decoration">&#10084;</span>
@@ -958,7 +1014,7 @@
                 <span class="greek-text">Σε θέλω κοντά μου</span>
                 <br><br>
                 Κάθε στιγμή χωρίς εσένα είναι σαν εξίσωση χωρίς λύση,<br>
-				Είσαι τα 7 μου λεπτά...
+                Είσαι τα 7 μου λεπτά...
             </div>
             <div class="sig"><br>Νίκος</div>
         </div>
@@ -966,11 +1022,47 @@
 </div>
 
 <script>
-    let tries = 2;
+    let tries = 3;
     let heartsInterval = null;
     let petalsInterval = null;
     let sparklesInterval = null;
     let envelopeOpened = false;
+
+    // BACKGROUND MUSIC CONTROL
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    const musicToggle = document.getElementById('musicToggle');
+    const musicIcon = musicToggle.querySelector('.music-icon');
+    let isMusicPlaying = false;
+
+    musicToggle.addEventListener('click', toggleMusic);
+
+    function toggleMusic() {
+        if (isMusicPlaying) {
+            backgroundMusic.pause();
+            isMusicPlaying = false;
+            musicIcon.textContent = '🔇';
+            musicToggle.classList.remove('playing');
+        } else {
+            backgroundMusic.volume = 0.3;
+            backgroundMusic.play();
+            isMusicPlaying = true;
+            musicIcon.textContent = '🔊';
+            musicToggle.classList.add('playing');
+        }
+    }
+
+    // Auto-start music on first user interaction
+    document.addEventListener('click', function initMusic() {
+        if (!isMusicPlaying) {
+            backgroundMusic.volume = 0.3;
+            backgroundMusic.play().then(() => {
+                isMusicPlaying = true;
+                musicIcon.textContent = '🔊';
+                musicToggle.classList.add('playing');
+            }).catch(() => {});
+        }
+        document.removeEventListener('click', initMusic);
+    }, { once: false });
 
     // Create welcome page hearts
     function createWelcomeHearts() {
@@ -991,27 +1083,31 @@
 
     // Enter site from welcome page
     function enterSite() {
+        // Ask about music first
+        if (confirm("Θέλεις να ξεκινήσει μουσική για να σε βοηθήσει να συγκεντρωθείς;")) {
+            backgroundMusic.volume = 0.3;
+            backgroundMusic.play().then(() => {
+                isMusicPlaying = true;
+                musicIcon.textContent = '🔊';
+                musicToggle.classList.add('playing');
+            }).catch(() => {});
+        }
+
+        // Show math popup instead of simple alert
+        document.getElementById('mathPopup').classList.add('visible');
+    }
+
+    function closeMathPopup() {
+        document.getElementById('mathPopup').classList.remove('visible');
+
+        // Continue with existing flow
         const welcomePage = document.getElementById('welcome-page');
         const mainContent = document.getElementById('main-content');
 
-        // Ask about music first
-        if (confirm("Θέλεις να ξεκινήσει μουσική για να σε βοηθήσει να συγκεντρωθείς;")) {
-            const music = document.getElementById('bg-music');
-            music.play();
-        }
-
-        // Show tries popup
-        alert("Έχεις 2 προσπάθειες για να λύσεις τον γρίφο! 🧩");
-
-        // Hide welcome page
         welcomePage.classList.add('hidden');
-
-        // Show main content
         setTimeout(() => {
             mainContent.classList.add('visible');
         }, 500);
-
-        // Start romantic effects
         startRomanticEffects();
     }
 
@@ -1210,12 +1306,48 @@
         } else {
             tries--;
             if (tries > 0) {
-                document.getElementById('tries-left').innerText = `Εναπομείνασες προσπάθειες: ${tries}`;
-                alert("Λάθος απόδειξη. Έλεγξε τις σταθερές ολοκλήρωσης.");
+                document.getElementById('popup-tries-left').innerText =
+                    `You have ${tries} ${tries === 1 ? 'try' : 'tries'} left until I reveal my secret to you...`;
+                showWrongPopup(false);
             } else {
-                alert("Δεν θέλω να σε βασανίζω άλλο... Θα σου δείξω τη λύση.");
-                reveal();
+                showWrongPopup(true);
             }
+        }
+    }
+
+    let revealAfterClose = false;
+
+    function showWrongPopup(isFinal) {
+        const popup = document.getElementById('wrongPopup');
+        const icon = document.querySelector('.wrong-popup-icon');
+        const title = document.querySelector('.wrong-popup-title');
+        const message = document.querySelector('.wrong-popup-message');
+        const triesText = document.getElementById('popup-tries-left');
+        const btn = document.querySelector('.wrong-popup-btn');
+
+        if (isFinal) {
+            icon.textContent = '💝';
+            title.textContent = 'Okay okay...';
+            message.textContent = 'Fine, I will reveal my secret to you...';
+            triesText.style.display = 'none';
+            btn.textContent = 'Show me! ♥';
+            revealAfterClose = true;
+        } else {
+            icon.textContent = '💔';
+            title.textContent = 'Incorrect Proof';
+            message.textContent = 'Check your integration constants...';
+            triesText.style.display = 'block';
+            btn.textContent = 'Try Again';
+            revealAfterClose = false;
+        }
+
+        popup.classList.add('visible');
+    }
+
+    function closeWrongPopup() {
+        document.getElementById('wrongPopup').classList.remove('visible');
+        if (revealAfterClose) {
+            setTimeout(reveal, 300);
         }
     }
 
@@ -1249,38 +1381,31 @@
         envelopeOpened = true;
 
         const envelope = document.getElementById('envelope');
-        const clickHint = document.getElementById('click-hint');
+        const tapHint = document.getElementById('tap-hint');
+        const letterContainer = document.getElementById('letterContainer');
 
-        // Hide click hint
-        clickHint.classList.add('hidden');
+        // Hide tap hint
+        tapHint.classList.add('hidden');
 
-        // Open envelope
+        // Open envelope flap
         envelope.classList.add('open');
 
-        // Launch confetti when envelope opens
+        // Show letter container after flap opens
         setTimeout(() => {
             launchConfetti();
+            letterContainer.classList.remove('hidden');
+            letterContainer.classList.add('visible');
 
-            // Start intensive hearts burst
+            // Start hearts burst
             heartsInterval = setInterval(createHeart, 200);
-
-            // Create initial burst of hearts
             for (let i = 0; i < 20; i++) {
                 setTimeout(createHeart, i * 80);
             }
-
-            // Slow down hearts after burst
             setTimeout(() => {
                 clearInterval(heartsInterval);
                 heartsInterval = setInterval(createHeart, 400);
             }, 3000);
-        }, 500);
-
-        // Show love message below envelope after letter slides up
-        setTimeout(() => {
-            const loveMessageContainer = document.getElementById('love-message-container');
-            loveMessageContainer.classList.add('visible');
-        }, 1800);
+        }, 800);
     }
 
     // Initialize on load
